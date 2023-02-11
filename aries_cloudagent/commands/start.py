@@ -92,9 +92,19 @@ def run_loop(startup: Coroutine, shutdown: Coroutine):
             await asyncio.gather(*tasks, return_exceptions=True)
         asyncio.get_event_loop().stop()
 
+    # FIXES FOR WINDOWS FROM: https://stackoverflow.com/a/54886771
+    def handle_signal_termination(*args):
+        print("My Signal Interrupt...")
+        cleanup()
+
     loop = asyncio.get_event_loop()
     cleanup = functools.partial(asyncio.ensure_future, done(), loop=loop)
-    loop.add_signal_handler(signal.SIGTERM, cleanup)
+
+    #loop.add_signal_handler(signal.SIGTERM, cleanup)
+    signal.signal(signal.SIGTERM, handle_signal_termination)
+    # Doesn't hurt to also have SIGINT handled as SIGTERM would be:
+    signal.signal(signal.SIGINT, handle_signal_termination)
+
     asyncio.ensure_future(init(cleanup), loop=loop)
 
     try:
