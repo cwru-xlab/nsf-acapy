@@ -1,0 +1,10 @@
+# DERIVED FROM /demo/demo-args.yaml
+
+inbound-transport:
+  - [http, 0.0.0.0, 8020]
+outbound-transport: http
+endpoint: http://127.0.0.1:8020
+label: service-provider.agent
+admin-insecure-mode: true
+admin: [0.0.0.0, 8021]
+no-ledger: true
