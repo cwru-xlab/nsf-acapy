@@ -9,9 +9,9 @@ INVALID_AGENT_ID_ERROR_DESC="Pass the name of the agent you want to run. (Either
 # Parse the arg for which agent we want to run:
 AGENT_ID=$1
 if [ "$AGENT_ID" = "$USER_AGENT_ID" ]; then
-  AGENT_PORT_RANGE=8030-8039
+  AGENT_PORT_RANGE=8030-8031
 elif [ "$AGENT_ID" = "$SERVICE_PROVIDER_AGENT_ID" ]; then
-  AGENT_PORT_RANGE=8020-8029
+  AGENT_PORT_RANGE=8020-8021
 elif [ -z "$AGENT_ID" ]; then
   echo "ARGUMENT REQUIRED: $INVALID_AGENT_ID_ERROR_DESC"
   exit 1

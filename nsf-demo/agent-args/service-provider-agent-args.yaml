@@ -3,8 +3,21 @@
 inbound-transport:
   - [http, 0.0.0.0, 8020]
 outbound-transport: http
-endpoint: http://127.0.0.1:8020
+endpoint: http://host.docker.internal:8020
 label: service-provider.agent
 admin-insecure-mode: true
 admin: [0.0.0.0, 8021]
 no-ledger: true
+
+# Wallet args from: https://github.com/hyperledger/aries-cloudagent-python/blob/main/Databases.md
+auto-provision: true
+
+wallet-type: askar
+wallet-name: service-provider-wallet
+wallet-key: wallet-password
+
+wallet-storage-type: postgres_storage
+# could be sent using env var ACAPY_WALLET_STORAGE_CONFIG
+wallet-storage-config: '{"url":"host.docker.internal:5433","max_connections":5, "wallet_scheme":"DatabasePerWallet"}'
+# could be sent using env var ACAPY_WALLET_STORAGE_CREDS
+wallet-storage-creds: '{"account":"postgres","password":"mysecretpassword","admin_account":"postgres","admin_password":"mysecretpassword"}'
