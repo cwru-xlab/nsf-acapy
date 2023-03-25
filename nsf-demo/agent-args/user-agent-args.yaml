@@ -15,9 +15,4 @@ auto-provision: true
 wallet-type: askar
 wallet-name: user-wallet
 wallet-key: wallet-password
-
 wallet-storage-type: postgres_storage
-# could be sent using env var ACAPY_WALLET_STORAGE_CONFIG
-wallet-storage-config: '{"url":"host.docker.internal:5433","max_connections":5, "wallet_scheme":"DatabasePerWallet"}'
-# could be sent using env var ACAPY_WALLET_STORAGE_CREDS
-wallet-storage-creds: '{"account":"postgres","password":"mysecretpassword","admin_account":"postgres","admin_password":"mysecretpassword"}'

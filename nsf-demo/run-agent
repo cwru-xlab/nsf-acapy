@@ -1,6 +1,8 @@
 #!/bin/bash
 # Builds and runs the agent with Docker. Takes 1 argument specifying which agent to run.
 
+source .env
+
 USER_AGENT_ID="user"
 SERVICE_PROVIDER_AGENT_ID="service-provider"
 INVALID_AGENT_ID_ERROR_DESC="Pass the name of the agent you want to run. (Either \"$USER_AGENT_ID\" or
@@ -34,7 +36,10 @@ echo "Built. Running agent docker image with ${AGENT_ID} agent args..."
 ACAPY_ARG_FILE="//${AGENT_ID}-agent-args.yaml"
 # Run docker with args for removing container on exit, interactive mode, port publishing:
 # Starts agent with arg file respective to the chosen agent.
-docker run --rm --name $CONTAINER_NAME -it -p 0.0.0.0:$AGENT_PORT_RANGE:$AGENT_PORT_RANGE nsf-demo-agent start --arg-file "$ACAPY_ARG_FILE"
+docker run --rm --name $CONTAINER_NAME -it -p 0.0.0.0:$AGENT_PORT_RANGE:$AGENT_PORT_RANGE nsf-demo-agent start --arg-file "$ACAPY_ARG_FILE" --wallet-storage-config '{"url":"host.docker.internal:'$POSTGRES_PORT'","max_connections":5, "wallet_scheme":"DatabasePerWallet"}' --wallet-storage-creds '{"account":"'$POSTGRES_USERNAME'","password":"'$POSTGRES_PASSWORD'","admin_account":"'$POSTGRES_USERNAME'","admin_password":"'$POSTGRES_PASSWORD'"}'
+# MAY WANT TO MAKE THIS ARG PASSING CLEANER IN THE FUTURE:
+# wallet-storage-config could be sent using env var ACAPY_WALLET_STORAGE_CONFIG
+# wallet-storage-creds could be sent using env var ACAPY_WALLET_STORAGE_CREDS
 
 # Note that I copied agent arg files in the Dockerfile rather than passing the args via script here - the reason for
 # this is so that I can manually run the agent executable on my local without docker and still pass the exact same
