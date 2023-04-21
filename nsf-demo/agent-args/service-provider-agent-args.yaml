@@ -4,6 +4,7 @@ inbound-transport:
   - [http, 0.0.0.0, 8020]
 outbound-transport: http
 endpoint: http://host.docker.internal:8020
+webhook-url: http://host.docker.internal:8081/webhook
 label: service-provider.agent
 admin-insecure-mode: true
 admin: [0.0.0.0, 8021]
