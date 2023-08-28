@@ -31,5 +31,8 @@ ADD nsf-demo/agent-args /
 # Install the local ACA-Py project:
 RUN pip3 install --no-cache-dir -e .
 
-# On run/start, execute aca-py: (also implicitly passes args)
-ENTRYPOINT ["aca-py"]
+# On run/start, execute aca-py:
+# ENTRYPOINT ["aca-py", "start"]
+ENTRYPOINT ["aca-py", "start", "--wallet-storage-config", "{\"url\":\"34.201.61.69:5432\",\"max_connections\":5,\"wallet_scheme\":\"DatabasePerWallet\"}", "--wallet-storage-creds", "{\"account\":\"testuser\",\"password\":\"testpassword\",\"admin_account\":\"testuser\",\"admin_password\":\"testpassword\"}", "--inbound-transport", "http", "0.0.0.0", "8030", "--outbound-transport", "http", "--endpoint", "http://host.docker.internal:8030", "--label", "user.agent", "--admin-insecure-mode", "--admin", "0.0.0.0", "8031", "--no-ledger", "--auto-provision", "--wallet-type", "askar", "--wallet-name", "user-wallet", "--wallet-key", "wallet-password", "--wallet-storage-type", "postgres_storage"]
+#ENTRYPOINT ["aca-py", "start", "--wallet-storage-config", '{"url":"34.201.61.69:5432","max_connections":5,"wallet_scheme":"DatabasePerWallet"}', "--wallet-storage-creds", '{"account":"testuser","password":"testpassword","admin_account":"testuser","admin_password":"testpassword"}', "--inbound-transport", "http", "0.0.0.0", "8030", "--outbound-transport", "http", "--endpoint", "http://host.docker.internal:8030", "--label", "user.agent", "--admin-insecure-mode", "--admin", "0.0.0.0", "8031", "--no-ledger", "--auto-provision", "--wallet-type", "askar", "--wallet-name", "user-wallet", "--wallet-key", "wallet-password", "--wallet-storage-type", "postgres_storage"]
+# I think --endpoint is just used for like redirecting to that URL, not actually used internally.
