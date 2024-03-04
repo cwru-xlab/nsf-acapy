@@ -33,18 +33,20 @@ RUN pip3 install --no-cache-dir -e .
 
 # On run/start, execute aca-py: (also implicitly passes args)
 # ENTRYPOINT ["aca-py", "start"]
-CMD `aca-py start --inbound-transport http 0.0.0.0 8020\
-      --outbound-transport http\
-      --endpoint 'http://employer.sharetrace.us:8020'\
-      --webhook-url 'http://employer-controller.employer:8081/webhook'\
-      --label 'service-provider.agent'\
-      --admin-insecure-mode\
-      --admin 0.0.0.0 8021\
-      --no-ledger\
-      --auto-provision\
-      --wallet-type askar\
-      --wallet-name service-provider-wallet\
-      --wallet-key wallet-password\
-      --wallet-storage-type postgres_storage\
-      --wallet-storage-config '{"url":"employer-acapy-agent-db.employer:5432","max_connections":5, "wallet_scheme":"DatabasePerWallet"}'\
-      --wallet-storage-creds '{"account":"testuser","password":"testpassword","admin_account":"testuser","admin_password":"testpassword"}'`
+CMD aca-py start --wallet-storage-config "$WALLET_STORAGE_CONFIG" --wallet-storage-creds '{"account":"testuser","password":"testpassword","admin_account":"testuser","admin_password":"testpassword"}' --inbound-transport http 0.0.0.0 8020 --outbound-transport http --endpoint "$ENDPOINT_URL" --webhook-url "$WEBHOOK_URL" --label user.agent --admin-insecure-mode --admin 0.0.0.0 8021 --no-ledger --auto-provision --wallet-type askar --wallet-name user-wallet --wallet-key wallet-password --wallet-storage-type postgres_storage
+
+# CMD `aca-py start --inbound-transport http 0.0.0.0 8020\
+#       --wallet-storage-config "$WALLET_STORAGE_CONFIG"\
+#       --wallet-storage-creds '{"account":"testuser","password":"testpassword","admin_account":"testuser","admin_password":"testpassword"}'
+#       --outbound-transport http\
+#       --endpoint 'http://employer.sharetrace.us:8020'\
+#       --webhook-url 'http://employer-controller.employer:8081/webhook'\
+#       --label 'service-provider.agent'\
+#       --admin-insecure-mode\
+#       --admin 0.0.0.0 8021\
+#       --no-ledger\
+#       --auto-provision\
+#       --wallet-type askar\
+#       --wallet-name service-provider-wallet\
+#       --wallet-key wallet-password\
+#       --wallet-storage-type postgres_storage\`
